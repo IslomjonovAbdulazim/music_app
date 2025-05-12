@@ -122,7 +122,15 @@ class SimpleAudioHandler extends BaseAudioHandler with SeekHandler {
   }
 
   @override
-  Future<void> playMediaItem(MediaItem item) => playPlaylist([item]);
+  Future<void> playMediaItem(MediaItem item) async {
+    final idx = queue.value.indexWhere((m) => m.id == item.id);
+    if (idx >= 0) {
+      await seek(Duration.zero);
+      await play();
+    } else {
+      // await playQueue([item]);
+    }
+  }
 
   @override
   Future<void> play() => _player.play();
