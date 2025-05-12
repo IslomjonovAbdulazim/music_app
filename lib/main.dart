@@ -18,9 +18,9 @@ void main() async {
       androidNotificationOngoing: true,
     ),
   );
-
   runApp(
     DevicePreview(
+      enabled: false,
       builder: (context) => MyApp(),
     ),
   );

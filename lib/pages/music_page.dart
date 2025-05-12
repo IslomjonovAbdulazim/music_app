@@ -1,7 +1,9 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 
 class MusicPage extends StatefulWidget {
-  const MusicPage({super.key});
+  final MediaItem item;
+  const MusicPage({super.key, required this.item});
 
   @override
   State<MusicPage> createState() => _MusicPageState();
