@@ -62,14 +62,21 @@ class SimpleAudioHandler extends BaseAudioHandler with SeekHandler {
         MediaControl.stop,
         MediaControl.skipToNext,
       ],
-      systemActions: const {MediaAction.seek},
+      systemActions: const {
+        MediaAction.seek,
+        MediaAction.seekForward,
+        MediaAction.seekBackward,
+        MediaAction.setShuffleMode,
+        MediaAction.setRepeatMode,
+      },
       androidCompactActionIndices: const [0, 1, 3],
       processingState: _mapProcessingState(_player.processingState),
       playing: _player.playing,
-      updatePosition: _player.position,
-      bufferedPosition: _player.bufferedPosition,
+      updatePosition: event.updatePosition,
+      bufferedPosition: event.bufferedPosition,
       speed: _player.speed,
-      queueIndex: _player.currentIndex,
+      updateTime: DateTime.now(),
+      queueIndex: event.currentIndex,
     );
   }
 
@@ -144,4 +151,16 @@ class SimpleAudioHandler extends BaseAudioHandler with SeekHandler {
 
   @override
   Future<void> skipToPrevious() => _player.seekToPrevious();
+
+  @override
+  Future<void> setShuffleMode(AudioServiceShuffleMode mode) =>
+      _player.setShuffleModeEnabled(mode == AudioServiceShuffleMode.all);
+
+  @override
+  Future<void> setRepeatMode(AudioServiceRepeatMode mode) =>
+      _player.setLoopMode(mode == AudioServiceRepeatMode.one
+          ? LoopMode.one
+          : mode == AudioServiceRepeatMode.all
+          ? LoopMode.all
+          : LoopMode.off);
 }
